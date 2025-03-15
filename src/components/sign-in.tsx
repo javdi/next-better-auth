@@ -34,35 +34,45 @@ export default function SignIn() {
     }
   }, [session, router]);
 
-  const handleLogin2 = async () => {
-    setLoading(true);
-    const { error } = await signIn.email(
-      { email, password },
-      {
-        onError: (ctx: { error: { status: number; message: string } }) => {
-          // Handle the error
-          if (ctx.error.status === 403) {
-            alert("Please verify your email address");
-          }
-          //you can also show the original error message
-          alert(ctx.error.message);
-        },
-      }
-    );
-    if (error) {
-      alert(error.message);
-    } else {
-      router.push("/auth/dashboard");
-    }
-    setLoading(false);
-  };
+  // const handleLogin2 = async () => {
+  //   setLoading(true);
+  //   const { error } = await signIn.email(
+  //     { email, password },
+  //     {
+  //       onError: (ctx: { error: { status: number; message: string } }) => {
+  //         // Handle the error
+  //         if (ctx.error.status === 403) {
+  //           alert("Please verify your email address");
+  //         }
+  //         //you can also show the original error message
+  //         alert(ctx.error.message);
+  //       },
+  //     }
+  //   );
+  //   if (error) {
+  //     alert(error.message);
+  //   } else {
+  //     router.push("/auth/dashboard");
+  //   }
+  //   setLoading(false);
+  // };
 
     const handleLogin = async () => {
       setLoading(true);
-      const { data, error } = await emailOtp.sendVerificationOtp({
+      const { data, error } = 
+      // case 1 OTP
+      // await emailOtp.sendVerificationOtp({
+      //   email,
+      //   type: "sign-in"
+      // }
+
+      // case 2 magicLink
+      await signIn.magicLink({
         email,
-        type: "sign-in"
-      },{
+        callbackURL: "http://localhost:3000/auth/dashboard", //redirect after successful login (optional)
+      }
+      
+      ,{
         onError: (ctx: { error: { status: number; message: string } }) => {
             // Handle the error
             if(ctx.error.status === 403) {
@@ -75,8 +85,9 @@ export default function SignIn() {
     if (error) {
       alert(error.message);
     } else {
-      localStorage.setItem("otp-email", email);
-      router.push("/auth/verify-email");
+      alert("Check your email for the magic link.");
+      // localStorage.setItem("otp-email", email);
+      // router.push("/auth/verify-email");
     }
     setLoading(false);
   };
