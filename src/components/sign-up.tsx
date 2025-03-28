@@ -12,15 +12,11 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { useState } from "react";
-import Image from "next/image";
 import { Loader2, X } from "lucide-react";
 import {
   emailOtp,
-  sendVerificationOtp,
   signIn,
-  signUp,
 } from "@/src/lib/auth-client";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { cn } from "../lib/utils";
 
@@ -34,18 +30,10 @@ export function SignUp() {
     setLoading(true);
     const { data, error } =
       // case 1 OTP
-      // await emailOtp.sendVerificationOtp({
-      //   email,
-      //   type: "sign-in"
-      // }
-
-      // case 2 magicLink
-      await signIn.magicLink(
-        {
-          email,
-          callbackURL: "http://localhost:3000/auth/dashboard", //redirect after successful login (optional)
-        },
-
+      await emailOtp.sendVerificationOtp({
+        email,
+        type: "sign-in"
+      },
         {
           onError: (ctx: { error: { status: number; message: string } }) => {
             // Handle the error
@@ -61,12 +49,8 @@ export function SignUp() {
       alert(error.message);
     } else {
       // case 1
-      // localStorage.setItem("otp-email", email);
-      // router.push("/auth/verify-email");
-
-        // case 2
-      alert("Check your email for the magic link.");
-
+      localStorage.setItem("otp-email", email);
+      router.push("/auth/verify-email");
     }
     setLoading(false);
   };

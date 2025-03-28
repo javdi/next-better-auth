@@ -13,7 +13,7 @@ import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { useEffect, useState } from "react";
-import { Loader2, Key } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { signIn, useSession, emailOtp } from "@/src/lib/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -21,7 +21,6 @@ import { cn } from "@/src/lib/utils";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const session = useSession(); // ✅ Check user session
@@ -34,44 +33,16 @@ export default function SignIn() {
     }
   }, [session, router]);
 
-  // const handleLogin2 = async () => {
-  //   setLoading(true);
-  //   const { error } = await signIn.email(
-  //     { email, password },
-  //     {
-  //       onError: (ctx: { error: { status: number; message: string } }) => {
-  //         // Handle the error
-  //         if (ctx.error.status === 403) {
-  //           alert("Please verify your email address");
-  //         }
-  //         //you can also show the original error message
-  //         alert(ctx.error.message);
-  //       },
-  //     }
-  //   );
-  //   if (error) {
-  //     alert(error.message);
-  //   } else {
-  //     router.push("/auth/dashboard");
-  //   }
-  //   setLoading(false);
-  // };
+  
 
     const handleLogin = async () => {
       setLoading(true);
-      const { data, error } = 
+      const {  error } = 
       // case 1 OTP
-      // await emailOtp.sendVerificationOtp({
-      //   email,
-      //   type: "sign-in"
-      // }
-
-      // case 2 magicLink
-      await signIn.magicLink({
+      await emailOtp.sendVerificationOtp({
         email,
-        callbackURL: "http://localhost:3000/auth/dashboard", //redirect after successful login (optional)
+        type: "sign-in"
       }
-      
       ,{
         onError: (ctx: { error: { status: number; message: string } }) => {
             // Handle the error
@@ -85,9 +56,9 @@ export default function SignIn() {
     if (error) {
       alert(error.message);
     } else {
-      alert("Check your email for the magic link.");
-      // localStorage.setItem("otp-email", email);
-      // router.push("/auth/verify-email");
+      // alert("Check your email for the magic link.");
+      localStorage.setItem("otp-email", email);
+      router.push("/auth/verify-email");
     }
     setLoading(false);
   };
@@ -123,15 +94,6 @@ export default function SignIn() {
                 Forgot your password?
               </Link>
             </div>
-
-            {/*  <Input
-                id="password"
-                type="password"
-                placeholder="password"
-                autoComplete="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              /> */}
           </div>
 
           <div className="flex items-center gap-2">
