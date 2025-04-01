@@ -5,7 +5,6 @@ import { Button } from "@/src/components/button";
 import { Loader2 } from "lucide-react";
 import { signIn } from "@/src/lib/auth-client";
 import { redirect } from "next/navigation";
-// import { verifyEmailOtp } from "@/app/actions/verify-email-otp";
 
 export default function VerifyEmailPage() {
   // We use a mounted state to ensure we only render when on the client.
@@ -33,11 +32,6 @@ export default function VerifyEmailPage() {
 
     const formData = new FormData(e.currentTarget);
 
-    // Method #1 (server actions)
-    // const result = await verifyEmailOtp(formData);
-    // setErrorMessage((result as any).error);
-
-    // Method #2 (client side)
     const result = await signIn.emailOtp({
       email: formData.get("email")?.toString() as string,
       otp: formData.get("otp")?.toString() as string,
