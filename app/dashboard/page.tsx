@@ -14,7 +14,7 @@ export default function DashboardPage() {
 
     if (!session.isPending) {
       if (!session.data) {
-        router.push("/auth/sign-in");
+        router.push("/");
       } else {
         setIsCheckingSession(false);
       }

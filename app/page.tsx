@@ -3,7 +3,7 @@
 import { useState, FormEvent } from "react";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/src/lib/utils";
-import { signIn } from "@/src/lib/auth-client";
+import { signIn, successCallbackURL } from "@/src/lib/auth-client";
 import { sendEmailOtp } from "@/app/actions/send-email-otp";
 import { Button } from "@/src/components/button";
 
@@ -19,10 +19,9 @@ export default function SignUp() {
     const formData = new FormData(e.currentTarget);
     const result = await sendEmailOtp(formData);
 
-    if (result && (result as any).error) {
-      setErrorMessage((result as any).error);
+    if (result && result.error) {
+      setErrorMessage(result.error);
     }
-
     setLoading(false);
   }
 
@@ -66,7 +65,7 @@ export default function SignUp() {
             onClick={async () => {
               await signIn.social({
                 provider: "google",
-                callbackURL: "http://localhost:3000/auth/dashboard",
+                callbackURL: successCallbackURL,
               });
             }}
           >
@@ -78,7 +77,7 @@ export default function SignUp() {
             onClick={async () => {
               await signIn.social({
                 provider: "apple",
-                callbackURL: "/dashboard",
+                callbackURL: successCallbackURL,
               });
             }}
           >
@@ -90,7 +89,7 @@ export default function SignUp() {
             onClick={async () => {
               await signIn.social({
                 provider: "microsoft",
-                callbackURL: "/dashboard",
+                callbackURL: successCallbackURL,
               });
             }}
           >

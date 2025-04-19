@@ -3,7 +3,7 @@
 import { useState, useEffect, FormEvent } from "react";
 import { Button } from "@/src/components/button";
 import { Loader2 } from "lucide-react";
-import { signIn } from "@/src/lib/auth-client";
+import { signIn, successCallbackURL } from "@/src/lib/auth-client";
 import { redirect } from "next/navigation";
 
 export default function VerifyEmailPage() {
@@ -40,7 +40,7 @@ export default function VerifyEmailPage() {
       if ("error" in result && result.error !== null) {
         setErrorMessage(JSON.stringify(result.error));
       } else {
-        redirect("/auth/dashboard");
+        redirect(successCallbackURL);
       }
     }
 
