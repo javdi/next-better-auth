@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org) project to test [BetterAuth](https://github.com/better-auth/better-auth)
+[Next.js](https://nextjs.org) project to test [BetterAuth](https://github.com/better-auth/better-auth)
 
 ```shell
 $ pnpm install

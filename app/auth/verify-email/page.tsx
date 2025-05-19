@@ -5,6 +5,7 @@ import { Button } from "@/src/components/button";
 import { Loader2 } from "lucide-react";
 import { signIn, successCallbackURL } from "@/src/lib/auth-client";
 import { redirect } from "next/navigation";
+import { Input } from "@/src/components/input";
 
 export default function VerifyEmailPage() {
   // We use a mounted state to ensure we only render when on the client.
@@ -15,9 +16,7 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     setIsMounted(true);
-    // Retrieve the stored email from localStorage (browser-only API)
-    const storedEmail = localStorage.getItem("otp-email") || "";
-    setEmail(storedEmail);
+    setEmail(new URLSearchParams(window.location.search).get("email") ?? '');
   }, []);
 
   // Until the component mounts on the client, render nothing.
@@ -54,8 +53,8 @@ export default function VerifyEmailPage() {
 
       {/* Disabled input box to show the user's email */}
       <div className="grid gap-2">
-        <input
-          className="input bg-gray-100"
+        <Input
+          className="bg-gray-100"
           id="email"
           name="email"
           type="email"
@@ -68,8 +67,7 @@ export default function VerifyEmailPage() {
         <label htmlFor="code" className="mt-6">
           Verification code sent to your inbox
         </label>
-        <input
-          className="input"
+        <Input
           type="text"
           id="otp"
           name="otp"

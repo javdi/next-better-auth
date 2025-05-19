@@ -15,5 +15,5 @@ export async function sendEmailOtp(formData: FormData) {
 
   // On success, perform a redirect
   console.warn("sendEmailOtp", data);
-  redirect("/auth/verify-email");
+  redirect(`/auth/verify-email?email=${formData.get("email")}`);
 }

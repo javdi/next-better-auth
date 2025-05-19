@@ -6,6 +6,7 @@ import { cn } from "@/src/lib/utils";
 import { signIn, successCallbackURL } from "@/src/lib/auth-client";
 import { sendEmailOtp } from "@/app/actions/send-email-otp";
 import { Button } from "@/src/components/button";
+import { Input } from "@/src/components/input";
 
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
@@ -34,8 +35,7 @@ export default function SignUp() {
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-2">
             <label htmlFor="email">Email</label>
-            <input
-              className="input"
+            <Input
               id="email"
               name="email"
               type="email"
